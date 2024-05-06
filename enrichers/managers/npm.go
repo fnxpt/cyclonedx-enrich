@@ -27,7 +27,7 @@ func (e *NPMEnricher) Enrich(component *cyclonedx.Component) error {
 		url = fmt.Sprintf("%s/%s/%s", npmEndpoint, component.Name, component.Version)
 	}
 
-	item, err := request[NpmPackage](url, parseJSON)
+	item, err := request[NpmPackage](url, nil, parseJSON)
 
 	if err != nil {
 		return err

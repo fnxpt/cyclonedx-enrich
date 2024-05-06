@@ -19,7 +19,7 @@ func (e *PyPiEnricher) Skip(component *cyclonedx.Component) bool {
 
 func (e *PyPiEnricher) Enrich(component *cyclonedx.Component) error {
 	url := fmt.Sprintf("%s/%s/%s/json", pypiEndpoint, component.Name, component.Version)
-	item, err := request[PyPiPackage](url, parseJSON)
+	item, err := request[PyPiPackage](url, nil, parseJSON)
 
 	if err != nil {
 		return err
