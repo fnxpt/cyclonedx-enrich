@@ -28,8 +28,8 @@ func enrich(component *cyclonedx.Component, licenses []string, hashes map[string
 	utils.SetLicense(component, licenses)
 }
 
-func request[T any](url string, fn func(io.ReadCloser) (*T, error)) (*T, error) {
-	r, err := utils.Request(url)
+func request[T any](url string, headers map[string]string, fn func(io.ReadCloser) (*T, error)) (*T, error) {
+	r, err := utils.Request(url, headers)
 	if err != nil {
 		log.Error("error with request",
 			slog.String("url", url),

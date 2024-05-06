@@ -22,9 +22,9 @@ func (e *CocoapodsEnricher) Skip(component *cyclonedx.Component) bool {
 }
 
 func (e *CocoapodsEnricher) Enrich(component *cyclonedx.Component) error {
-	url := fmt.Sprintf("%s/Specs/%s/%s/%s/%s.podspec.json?aaaa", cocoapodsEndpoint, path(component.Name), component.Name, component.Version, component.Name)
+	url := fmt.Sprintf("%s/Specs/%s/%s/%s/%s.podspec.json", cocoapodsEndpoint, path(component.Name), component.Name, component.Version, component.Name)
 
-	item, err := request[CocoaPodsPackage](url, parseJSON)
+	item, err := request[CocoaPodsPackage](url, nil, parseJSON)
 
 	if err != nil {
 		return err
