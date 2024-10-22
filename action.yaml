@@ -1,0 +1,37 @@
+name: CycloneDX Enrich
+description: >
+  This action generates enriches a sbom with cyclonedx format
+inputs:
+  file:
+    description: >
+      File to be used
+    required: true
+  operation:
+    description: >
+      Operation to be executed
+    type: choise
+    options:
+      - enrich
+      - validate
+    default: enrich
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install tool
+      shell: bash
+      run: >
+        go install github.com/fnxpt/cyclonedx-enrich@latest
+
+    - name: Execute Enrich operation
+      if: ${{ inputs.operation == 'enrich' }}
+      shell: bash
+      run: >
+        cyclonedx-enrich -sbom-enrich ${{ inputs.file }}
+
+    - name: Execute Validate
+      if: ${{ inputs.operation == 'validate' }}
+      shell: bash
+      run: >
+        cyclonedx-enrich -sbom-validate ${{ inputs.file }}
