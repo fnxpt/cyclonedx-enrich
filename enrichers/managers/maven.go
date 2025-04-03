@@ -25,7 +25,7 @@ func (e *MavenEnricher) Skip(component *cyclonedx.Component) bool {
 func (e *MavenEnricher) Enrich(component *cyclonedx.Component) error {
 	url := fmt.Sprintf("%s%s/%s/%s/%s-%s.pom", mavenEndpoint, strings.ReplaceAll(component.Group, ".", "/"), component.Name, component.Version, component.Name, component.Version)
 
-	item, err := request(url, parsePom)
+	item, err := request(url, nil, parsePom)
 
 	if err != nil {
 		return err
