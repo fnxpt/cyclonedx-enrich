@@ -42,15 +42,20 @@ func SetLicense(component *cyclonedx.Component, licenseNames []string) {
 	component.Licenses = (*cyclonedx.Licenses)(&licenses)
 }
 
-func Request(url string) (resp *http.Response, err error) {
+func Request(url string, headers map[string]string) (resp *http.Response, err error) {
 
 	req, _ := http.NewRequest("GET", url, nil)
+
+	for key, value := range headers {
+		req.Header.Set(key, value)
+	}
+
 	req.Header.Set("Cache-Control", "stale-if-error")
 	r, err := tp.RoundTrip(req)
 
 	if r.StatusCode == 301 {
 		newURL, _ := r.Location()
-		return Request(newURL.String())
+		return Request(newURL.String(), headers)
 	}
 
 	return r, err
